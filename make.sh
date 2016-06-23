@@ -16,3 +16,5 @@ docker build -t $repo/dealii-full-deps full-deps/ || exit 1
 ver="v8.4.1"
 docker build -t $repo/dealii:v8.4.1 --build-arg VER=$ver deal/ || exit 1
 
+ver="v8.4.1"
+docker build -t $repo/dealii-clang:v8.4.1 --build-arg VER=$ver deal-clang/ || exit 1
