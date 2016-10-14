@@ -30,7 +30,11 @@
 #      docker run -e BUILDS=gcc -v "$(pwd):/home/bob/source" tjhei/dealii-tester-alpha
 
 if [ -z "$TESTREGEX" ]; then
-  TESTREGEX="multigrid/step"
+  TESTREGEX="-R multigrid/step"
+elif [ "$TESTREGEX" == "*" ]; then
+  TESTREGEX=""
+else
+  TESTREGEX="-R \"$TESTREGEX\""
 fi
 
 if [ -z "$BUILDS" ]; then
@@ -72,7 +76,7 @@ compiler=""
 CC=clang CXX=clang++ cmake -G "Ninja" -D CMAKE_BUILD_TYPE=Debug -DDEAL_II_WITH_MPI=ON ~/source || { echo "configure FAILED"; return; }
 nice ninja || { echo "build FAILED"; return; }
 nice ninja setup_tests || { echo "setup_tests FAILED"; return; }
-nice ctest -R "$TESTREGEX" --output-on-failure -DDESCRIPTION="$desc" -j 10 || { echo "test FAILED"; }
+nice ctest "$TESTREGEX" --output-on-failure -DDESCRIPTION="$desc" -j 10 || { echo "test FAILED"; }
 }
 
 
