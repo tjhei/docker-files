@@ -16,19 +16,18 @@
 # example usage:
 # 1) mount readonly, just keep logs:
 #      mkdir log
-#                -e BUILDS=gcc
-#      docker run --rm -v "$(pwd):/source:ro" -v "$(pwd)/log/:/home/bob/log/"  tjhei/dealii-tester-alpha
-#
+#                
+#      docker run --rm -v "$(pwd):/source:ro" -v "$(pwd)/log/:/home/bob/log/" tjhei/dealii-tester-alpha
 #
 # 2) mount readonly, you need to copy results out:
-#      docker run -it --rm -v "$(pwd):/source:ro" tjhei/aspect-tester-8.4.1 /bin/bash
+#      docker run -it --rm -v "$(pwd):/source:ro" tjhei/dealii-tester-alpha /bin/bash
 #      BUILDS="gcc" ./script.sh
 #      docker cp CONTAINER:/home/bob/log/changes-BUILD.diff . # from outside
-# 3) mount writeable, this will modify your files outside the container
-#      docker run -it --rm -v "$(pwd):/home/bob/source" tjhei/aspect-tester-8.4.1 /bin/bash
+# 3) mount writeable, this way you can modify your files outside the container
+#      docker run -it --rm -v "$(pwd):/home/bob/source" tjhei/dealii-tester-alpha /bin/bash
 #      BUILDS="clang" ./script.sh
 # 4) mount writeable, run and exit 
-#      docker run -e BUILDS=gcc -v "$(pwd):/home/bob/source" tjhei/aspect-tester-8.4.1
+#      docker run -e BUILDS=gcc -v "$(pwd):/home/bob/source" tjhei/dealii-tester-alpha
 
 if [ -z "$TESTREGEX" ]; then
   TESTREGEX="multigrid/step"
@@ -50,7 +49,7 @@ else
     cp -r /source ~/source
     rm -rf ~/source/CMakeCache.txt
   else
-    echo "ERROR, no ASPECT mounted under ~/source/ or /source/"
+    echo "ERROR, no deal.II mounted under ~/source/ or /source/"
     exit 1
   fi
 fi
