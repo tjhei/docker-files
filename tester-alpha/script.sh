@@ -10,6 +10,8 @@
 # BUILDS:
 #  (gcc|clang)[petsc]
 # QUIET=1 (default, not) -- only print summary
+#
+# TESTREGEX - string to pass to ctest -R, default "multigrid/step" (don't ask why)
 
 # example usage:
 # 1) mount readonly, just keep logs:
@@ -27,6 +29,10 @@
 #      BUILDS="clang" ./script.sh
 # 4) mount writeable, run and exit 
 #      docker run -e BUILDS=gcc -v "$(pwd):/home/bob/source" tjhei/aspect-tester-8.4.1
+
+if [ -z "$TESTREGEX" ]; then
+  TESTREGEX="multigrid/step"
+fi
 
 if [ -z "$BUILDS" ]; then
 #  echo 'Please specify list of builds to do in the ENV variable $BUILDS.'
@@ -67,7 +73,7 @@ compiler=""
 CC=clang CXX=clang++ cmake -G "Ninja" -D CMAKE_BUILD_TYPE=Debug -DDEAL_II_WITH_MPI=ON ~/source || { echo "configure FAILED"; return; }
 nice ninja || { echo "build FAILED"; return; }
 nice ninja setup_tests || { echo "setup_tests FAILED"; return; }
-nice ctest -R "multigrid/transfer" --output-on-failure -DDESCRIPTION="$desc" -j 10 || { echo "test FAILED"; }
+nice ctest -R "$TESTREGEX" --output-on-failure -DDESCRIPTION="$desc" -j 10 || { echo "test FAILED"; }
 }
 
 
