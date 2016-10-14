@@ -11,7 +11,7 @@ if os.path.isfile('token.txt'):
 # context for status updates inside github. needs to be unique, 'default' is okay
 # if you only have one ci job running. Use an empty string to disable setting the
 # commit status.
-github_context = "" #"tjhei-alpha"
+github_context = "tjhei-alpha"
 
 # directory where the local checkout of the git repo sits
 repodir = os.getcwd()+"/dealii"
@@ -67,7 +67,7 @@ def has_hotword(text):
 
 # return true if user is trusted
 def is_allowed(username):
-    trusted = ['tjhei', 'bangerth', 'tamiko']
+    trusted = ['tjhei', 'bangerth', 'tamiko', 'Rombur', 'kronbichler', 'guidokanschat', 'drwells', 'luca-heltai', 'davydden', 'masterleinad', 'jppelteret']
 
     if username in trusted:
         return True

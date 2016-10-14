@@ -4,5 +4,6 @@ python runner.py run-all
 python runner.py do-pullrequests
 python runner.py render
 rsync -az results.html logs/ timo.ces:public_html/cib/dealii-tester-alpha/
+ssh timo.ces chmod -R a+rX ~/public_html/cib/dealii-tester-alpha/
 
 echo "exiting."
